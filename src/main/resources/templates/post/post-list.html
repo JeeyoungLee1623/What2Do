@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>What 2 Do? - Post List</title>
+    <style>
+        body {
+            background: linear-gradient(to bottom, #b2d4e7, #c0c0e0, #e6f2ff);
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            min-height: 100vh;
+        }
+
+        #header {
+            text-align: center;
+            text-transform: uppercase;
+            margin-top: 20px;
+        }
+
+        #header a {
+            text-decoration: none;
+            color: #0073e6;
+            font-size: 60px;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        #header a:hover {
+            color: #003366;
+        }
+
+        #tabs {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            display: flex;
+            gap: 20px;
+        }
+
+        .tab {
+            color: #fff;
+            cursor: pointer;
+            font-size: 18px;
+            background-color: #004488;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-size: 18px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+            transition: background-color 0.3s ease;
+        }
+
+        .tab:hover {
+            background-color: #003366;
+        }
+
+        #contents {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            max-width: 800px;
+            padding: 20px;
+        }
+
+        .post-table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: white;
+            border-radius: 20px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+            margin-bottom: 20px;
+        }
+
+        .post-table th, .post-table td {
+            border: 1px solid #ccc;
+            padding: 15px;
+            text-align: left;
+        }
+
+        .post-table th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+        }
+
+        .post-category {
+            font-size: 18px;
+            font-weight: bold;
+            color: #0073e6;
+        }
+
+        .post-title {
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+            cursor: pointer;
+            color: blue;
+            text-decoration: underline;
+        }
+
+        .post-title:hover {
+            color: #003366;
+        }
+
+        .post-member {
+            font-size: 16px;
+            color: #555;
+        }
+
+        .post-createDate {
+            font-size: 14px;
+            color: #777;
+        }
+
+        #content {
+            margin-top: 20px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        #search {
+            flex: 1;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        #search-button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #004488;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        #search-button:hover {
+            background-color: #003366;
+        }
+
+        /* Updated styles for pagination */
+        .pagination {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .pagination ul {
+            list-style: none;
+            padding: 0;
+            display: flex;
+        }
+
+        .pagination li {
+            margin: 0 5px;
+        }
+
+        .pagination a {
+            text-decoration: none;
+            color: #004488;
+            font-weight: bold;
+            padding: 8px 16px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        .pagination a:hover {
+            background-color: #003366;
+            color: white;
+        }
+
+        .pagination .active a {
+            background-color: #004488;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+<div id="header">
+    <a href="/" th:href="@{/}">What 2 Do?</a>
+</div>
+
+<div id="tabs">
+    <button class="tab" id="myPage-button" onclick="window.location.href='/information/lists'">정보</button>
+    <button class="tab" id="board-tab" onclick="window.location.href='/post/new'">글쓰기</button>
+</div>
+
+<div id="contents">
+    <!-- 검색 창 및 버튼 -->
+    <form th:action="@{/post/search}" method="get">
+        <input type="text" id="search" name="keyword" placeholder="검색어를 입력하세요">
+        <button class="btn" id="search-button" type="submit">검색</button>
+    </form>
+
+    <!-- 게시글 목록 시작 -->
+    <table class="post-table">
+        <thead>
+        <tr>
+            <th>카테고리</th>
+            <th>제목</th>
+            <th>작성자</th>
+            <th>작성일자</th>
+        </tr>
+        </thead>
+        <tbody>
+
+        <!-- 첫 번째 리스트 (postList) -->
+        <tr th:each="post : ${postList}" style="cursor: pointer;">
+            <td th:text="${post.category}" class="post-category"></td>
+            <td class="post-title">
+                <a th:text="${post.title}" th:href="@{/post/detail/{id}(id=${post.id})}"></a>
+            </td>
+            <td th:text="${post.member.userName}" class="post-member"></td>
+            <td th:text="${post.createDate}" class="post-createDate"></td>
+        </tr>
+
+        <!-- 두 번째 리스트 (searchList) -->
+        <tr th:each="searchedPost : ${searchList != null} ? ${searchList.content} : null" style="cursor: pointer;">
+            <td th:text="${searchedPost.category}" class="post-category"></td>
+            <td class="post-title">
+                <a th:text="${searchedPost.title}" th:href="@{/post/detail/{id}(id=${searchedPost.id})}"></a>
+            </td>
+            <td th:text="${searchedPost.member.userName}" class="post-member"></td>
+            <td th:text="${searchedPost.createDate}" class="post-createDate"></td>
+        </tr>
+
+        </tbody>
+
+        <!-- 페이징 부분 시작 -->
+        <div class="pagination justify-content-center">
+            <ul class="pagination">
+                <!-- Updated #numbers.sequence to handle cases where the total pages are less than 5 -->
+                <li th:each="page : ${searchList.totalPages > 5 ?
+                    #numbers.sequence(
+                        Math.max(0, searchList.number - 2),
+                        Math.min(searchList.totalPages - 1, Math.max(searchList.number + 2, 4))
+                    ) :
+                    #numbers.sequence(0, searchList.totalPages - 1)}" class="page-item" th:classappend="${searchList.number == page} ? 'active'">
+                    <a th:if="${page >= 0 and page < searchList.totalPages}" th:href="@{/post/search(keyword=${keyword}, page=${page})}" class="page-link" th:text="${page + 1}"></a>
+                </li>
+            </ul>
+        </div>
+        <!-- 페이징 부분 종료 -->
+    </table>
+    <!-- 게시글 목록 종료 -->
+</div>
+</body>
+</html>

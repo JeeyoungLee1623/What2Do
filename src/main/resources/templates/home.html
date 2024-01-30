@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>What 2 Do?</title>
+  <style>
+    body {
+      background: linear-gradient(to bottom, #b2d4e7, #c0c0e0, #e6f2ff);
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
+
+    #header {
+     text-align: center;
+     text-transform: uppercase;
+     margin-bottom: 85px;
+    }
+
+    #header h1 {
+      font-size: 120px;
+      font-weight: bold;
+      color: #0073e6;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+      margin-bottom: 25px;
+    }
+
+    #tabs {
+      display: flex;
+      justify-content: center;
+      background-color: transparent;
+      padding: 10px;
+      border-radius: 5px;
+      margin-top: 15px;
+    }
+
+    .tab {
+      margin: 0 10px;
+      color: #333;
+      cursor: pointer;
+      font-size: 18px;
+    }
+
+    .btn {
+      background-color: #004488;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      padding: 10px 20px;
+      cursor: pointer;
+      font-size: 16px;
+      box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+      transition: background-color 0.3s ease;
+      margin: 0 10px;
+    }
+
+    .btn:hover {
+      background-color: #003366;
+    }
+
+    #content {
+     display: flex;
+     flex-direction: column;
+     align-items: center;
+     margin-top: 20px;
+    }
+
+    #search {
+      width: 300px;
+      padding: 10px;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      background-color: rgba(255, 255, 255, 0.8);
+    }
+
+    .success-message {
+      font-size: 20px;
+      color: black;
+      margin-bottom: 50px;
+    }
+
+  </style>
+</head>
+<body>
+<div id="header">
+  <a href="/" th:href="@{/}" style="text-decoration: none; color: #0073e6;">
+    <h1>What 2 Do?</h1>
+  </a>
+</div>
+
+<div class="right-align">
+  <span th:text="${session.my_greeting}" class="success-message" style="position: absolute; top: 50px; left: 50px;"></span>
+</div>
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="collapse navbar-collapse" id="navbarNav">
+    <td th:if="${session.my_greeting}==null">
+      <button class="btn btn-primary nav-link" onclick="window.location.href='/member/new'">회원가입</button>
+    </td>
+    <td th:if="${session.my_greeting}!=null">
+      <button class="btn btn-primary nav-link" onclick="window.location.href='/member/myPage/${member.email}'">마이페이지</button>
+    </td>
+
+
+    <td th:if="${session.my_greeting}!=null">
+      <button class="btn btn-primary nav-link" onclick="window.location.href='/doLogout'">로그아웃</button>
+    </td>
+
+    <td th:if="${session.my_greeting}==null">
+      <button class="btn btn-primary nav-link" onclick="window.location.href='/member/login'">로그인</button>
+    </td>
+
+    <td th:if="${session.my_greeting}!=null">
+      <button class="btn btn-primary nav-link" onclick="window.location.href='/chat-gpt/question'">채팅</button>
+    </td>
+
+
+    <button class="btn btn-primary nav-link" onclick="window.location.href='/post/lists'">글목록</button>
+    <button class="btn btn-primary nav-link" onclick="window.location.href='/information/lists'">정보</button>
+  </div>
+</nav>
+
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
+
+
+
+<script>
+function redirectToMyPage(memberId) {
+    window.location.href = `/member/myPage/${membersId}`;
+}
+</script>
+
+
+
+</body>
+</html>

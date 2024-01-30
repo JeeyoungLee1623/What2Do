@@ -1,0 +1,66 @@
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '2.7.15'
+	id 'io.spring.dependency-management' version '1.0.15.RELEASE'
+}
+
+group = 'com.What2Do'
+version = '0.0.1-SNAPSHOT'
+
+java {
+	sourceCompatibility = '1.8'
+	targetCompatibility = '1.8'
+}
+
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity5'
+	compileOnly 'org.projectlombok:lombok'
+	runtimeOnly 'com.mysql:mysql-connector-j'
+	annotationProcessor 'org.projectlombok:lombok'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'org.springframework.security:spring-security-test'
+	implementation 'com.fasterxml.jackson.core:jackson-databind:2.14.1'
+	implementation group: 'org.json', name: 'json', version: '20220924'
+	implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.14.1'
+	implementation 'org.springframework.boot:spring-boot-starter-data-redis:2.7.1'
+	implementation 'org.springframework.session:spring-session-data-redis:2.7.1'
+	implementation 'org.webjars:jquery:3.6.0'
+	compileOnly 'org.projectlombok:lombok:1.18.22'
+	annotationProcessor 'org.projectlombok:lombok:1.18.22'
+	implementation 'org.springframework.boot:spring-boot-starter-validation:2.7.1'
+	runtimeOnly 'com.h2database:h2:2.1.210'
+	implementation group: 'io.jsonwebtoken', name: 'jjwt-api', version: '0.11.5'
+	runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-impl', version: '0.11.5'
+	runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-jackson', version: '0.11.5'
+	implementation 'io.jsonwebtoken:jjwt:0.11.5'
+	implementation 'org.springframework.security:spring-security-jwt:1.1.1'
+	implementation 'org.slf4j:slf4j-api:1.7.32'
+	implementation 'ch.qos.logback:logback-classic:1.2.6'
+	implementation 'org.springframework.boot:spring-boot-starter-validation:2.7.1'
+	implementation 'com.google.cloud:google-cloud-language:2.21.0'
+	implementation 'org.webjars:jquery:3.5.1'
+	implementation 'org.springframework.boot:spring-boot-starter-webflux:2.7.1'
+	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client:2.7.1'
+	implementation 'io.github.flashvayne:chatgpt-spring-boot-starter:1.0.4'
+	implementation 'org.springframework.security.oauth.boot:spring-security-oauth2-autoconfigure:2.7.1'
+	implementation 'com.theokanning.openai-gpt3-java:service:0.12.0'
+	implementation 'org.springdoc:springdoc-openapi-ui:1.6.3'
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}

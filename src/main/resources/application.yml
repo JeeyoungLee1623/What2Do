@@ -1,0 +1,39 @@
+server:
+  port: 8081
+
+
+spring:
+  session:
+    storage-type: redis
+  redis:
+    host: localhost
+    port: 6379
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/What2Do
+    username: root
+    password: 1234
+  jpa:
+    database: mysql
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+    generate-ddl: true
+    hibernate:
+      ddl-auto: update
+    show_sql: true
+  http:
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
+
+logging:
+  level:
+    root: info
+
+profiles:
+  active: API-KEY
+
+gpt:
+  apiKey: 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
+
+
