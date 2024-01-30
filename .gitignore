@@ -25,6 +25,7 @@ bin/
 out/
 !**/src/main/**/out/
 !**/src/test/**/out/
+
 src/main/java/com/What2Do/What2Do/jwt
 src/main/java/com/What2Do/What2Do/gpt/config/ChatGptConfig.java
 src/main/resources/application.yml
