@@ -40,10 +40,11 @@ public class Information {
 
     @Builder
     public Information (Category2 category, String title, String content, String imageUrl){
-        this.category = Category2.클래스;
+        this.category = category;
         this.title = title;
         this.content = content;
         this.imageUrl = imageUrl;
+        this.createDate = LocalDateTime.now();
 
     }
 

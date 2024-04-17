@@ -1,5 +1,6 @@
 package com.What2Do.What2Do.comment.domain;
 
+
 import com.What2Do.What2Do.member.domain.Member;
 import com.What2Do.What2Do.post.domain.Post;
 import lombok.Builder;
@@ -12,42 +13,33 @@ import java.time.LocalDateTime;
 @Entity
 @Data
 @NoArgsConstructor
-public class Comment {
+public class Comments {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(columnDefinition = "TEXT", nullable = false)
-    private String comment;
+    @Column
+    private String comments;
+
+    @ManyToOne
+    @JoinColumn(nullable = false, name= "post_id")
+    private Post post;
+
+    @ManyToOne
+    @JoinColumn(nullable = false, name = "member_id")
+    private Member member;
 
     @Column
     private LocalDateTime createDate;
 
-    @ManyToOne
-    @JoinColumn(name = "post_id")
-    private Post post;
-
-    @ManyToOne
-    @JoinColumn(name = "member_id")
-    private Member member;
-
 
     @Builder
-    public Comment (String comment, Post post, Member member){
-        this.comment = comment;
+    public Comments (String comments, Post post, Member member){
+        this.comments = comments;
         this.post = post;
         this.member = member;
         this.createDate = LocalDateTime.now();
     }
 
-
-
-
-
-
-
-
 }
-
-

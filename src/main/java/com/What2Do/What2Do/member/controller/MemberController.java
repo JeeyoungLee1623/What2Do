@@ -1,6 +1,5 @@
 package com.What2Do.What2Do.member.controller;
 
-import com.What2Do.What2Do.comment.service.CommentService;
 import com.What2Do.What2Do.member.domain.Member;
 import com.What2Do.What2Do.member.etc.MemberRequestDto;
 
@@ -31,8 +30,6 @@ public class MemberController {
     @Autowired
     private PostService postService;
 
-    @Autowired
-    private CommentService commentService;
 
 
     // 홈 화면
@@ -62,23 +59,6 @@ public class MemberController {
         return "member/member-myPage";
 
     }
-
-
-    @GetMapping("/member/myPage/{id}")
-    public String memberMyPage (@PathVariable (value = "id") Long id, Model model) throws Exception {
-            Member member = memberService.findById(id);
-            model.addAttribute("memberDetail", member);
-        return "member/member-myPage";
-    }
-
-
-    // 회원 정보 수정
-    @PostMapping("/member/update")
-    public String memberUpdateForm (MemberRequestDto memberRequestDto) throws Exception{
-        memberService.update(memberRequestDto);
-        return "member/member-update";
-    }
-
 
     @GetMapping("member/login")
     public String memberLoginForm(){

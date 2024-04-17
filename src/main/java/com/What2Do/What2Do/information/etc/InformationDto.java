@@ -12,7 +12,7 @@ import java.util.List;
 public class InformationDto {
 
     private String id;
-    private Category2 category2;
+    private Category2 category;
     private String title;
     private String content;
     private List<InfoComment> infoComments;

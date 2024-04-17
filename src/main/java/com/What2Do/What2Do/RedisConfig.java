@@ -30,8 +30,9 @@ public class RedisConfig {
         return redisTemplate;
     }
 
+
     //    redis 의 구성정보에 대한 정보를 spring 에 알려줘야 자동으로 session 데이터를 redis 에 담을 수 있다.
-//    현재는 standAlone 단일 구성으로 가고자 한다.
+    //    현재는 standAlone 단일 구성으로 가고자 한다.
     @Bean
     public RedisConnectionFactory redisConnectionFactory() {
         RedisStandaloneConfiguration redisStandaloneConfiguration = new RedisStandaloneConfiguration();

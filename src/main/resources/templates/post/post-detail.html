@@ -1,5 +1,3 @@
-<!-- post-detail.html -->
-
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
@@ -7,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>What 2 Do? - Post Detail</title>
     <style>
-        <!-- 이전에 제공한 스타일 코드 -->
         body {
             background: linear-gradient(to bottom, #b2d4e7, #c0c0e0, #e6f2ff);
             font-family: Arial, sans-serif;
@@ -73,6 +70,7 @@
             padding: 20px;
         }
 
+        /* 게시글 상세 내용 스타일링 */
         .post-detail {
             background-color: white;
             border-radius: 20px;
@@ -113,85 +111,87 @@
             margin-top: 20px;
         }
 
-        .comment-section {
+        /* 댓글 추가 폼 스타일링 */
+        #comment-form {
             margin-top: 20px;
         }
 
-        .comment-section h2 {
-            font-size: 20px;
-            color: #333;
-        }
-
-        .comment-section ul {
-            list-style: none;
-            padding: 0;
-        }
-
-        .comment-section li {
-            margin-bottom: 10px;
-        }
-
-        .comment-section p {
-            margin: 0;
-        }
-
-        .comment-form textarea {
-            width: 100%;
-            margin-top: 10px;
-        }
-
-        .comment-form input[type="submit"] {
-            background-color: #004488;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-
-        .comment-form input[type="submit"]:hover {
-            background-color: #003366;
-        }
-
-        .edit-button {
-            margin-top: 20px;
-        }
-
-        .delete-button {
-            margin-top: 20px;
-        }
-
-        #edit-form {
-            display: none;
-            margin-top: 20px;
-        }
-
-        #edit-form label {
-            font-size: 16px;
-            color: #333;
-            display: block;
-            margin-top: 10px;
-        }
-
-        #edit-form input[type="text"], #edit-form textarea {
+        #comment-form textarea {
             width: 100%;
             padding: 10px;
             border: 1px solid #ccc;
             border-radius: 5px;
             font-size: 16px;
+            margin-bottom: 10px;
         }
 
-        #edit-form button[type="submit"], #edit-form button[type="button"] {
-            margin-top: 10px;
+        #comment-form button {
             padding: 10px 20px;
             font-size: 16px;
             cursor: pointer;
+            background-color: #007bff;
+            color: #fff;
+            border: 1px solid #007bff;
+            border-radius: 5px;
         }
 
-        #edit-form button[type="button"] {
-            background-color: #ccc;
+        /* 댓글 목록 스타일링 */
+        #comments {
+            margin-top: 20px;
         }
+
+        #comments h2 {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        #comments ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        #comments li {
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+
+        /* 수정 폼 스타일링 */
+        .edit-comment-form {
+            display: none;
+            margin-top: 10px;
+        }
+
+                   /* 수정 버튼 */
+  .edit-button {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    outline: none;
+    background-color: #007bff;
+    color: #fff;
+    margin-right: 10px;
+  }
+
+  /* 삭제 버튼 */
+  .delete-button {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    outline: none;
+    background-color: #dc3545;
+    color: #fff;
+  }
+
+  /* 호버 효과 */
+  .edit-button:hover, .delete-button:hover {
+    opacity: 0.8;
+  }
     </style>
 </head>
 <body>
@@ -214,13 +214,15 @@
         <p class="post-content" th:text="${postDetail.content}"></p>
 
         <!-- 수정 버튼 -->
-        <button class="btn btn-primary edit-button" onclick="editPost()">수정</button>
-
-        <!-- 삭제 버튼 -->
-        <a th:href="@{'/post/delete?id=' + ${postDetail.id}}" class="btn btn-danger delete-button" role="button">삭제</a>
+        <div class="button-group" style="display: flex; align-items: center; margin-top: 20px;">
+            <!-- 수정 버튼 -->
+            <button type="button" class="btn btn-primary edit-button" onclick="editPost()">수정</button>
+            <!-- 삭제 버튼 -->
+            <a th:href="@{'/post/delete?id=' + ${postDetail.id}}" class="btn btn-danger delete-button" role="button">삭제</a>
+        </div>
 
         <!-- 수정 폼 -->
-        <div id="edit-form">
+        <div id="edit-form" style="margin-top: 20px; display: none;">
             <form th:action="@{'/post/update/' + ${postDetail.id}}" th:object="${postDetail}" method="post">
                 <label for="category">카테고리:</label>
                 <input type="text" id="category" th:field="*{category}" /><br>
@@ -233,35 +235,46 @@
             </form>
         </div>
 
-        <!-- 댓글 목록 시작 -->
-        <div class="comment-section">
-            <h2>댓글</h2>
-            <ul>
-                <!-- 댓글 반복문 시작 -->
-                <li th:each="comment : ${comments}">
-                    <p th:text="${comment.comment}"></p>
-                    <p th:text="${comment.member.userName}"></p>
-                    <p th:text="${comment.createDate}"></p>
-                    <!-- 추가: 댓글 수정 및 삭제 링크 -->
-                    <a th:href="@{/comments/{commentId}/update(commentId=${comment.id})}">수정</a>
-                    <a th:href="@{/comments/{commentId}(commentId=${comment.id})}" data-method="delete">삭제</a>
-                </li>
-                <!-- 댓글 반복문 종료 -->
-            </ul>
-        </div>
-        <!-- 댓글 목록 종료 -->
-
-        <!-- 댓글 작성 폼 시작 -->
-        <div class="comment-form">
-            <form th:action="@{/comments/create}" method="post">
-                <textarea name="comment" rows="3" required></textarea>
-                <input type="submit" value="댓글 작성">
+        <!-- 댓글 추가 폼 -->
+        <div id="comment-form">
+            <form th:action="@{/comments/new}" method="post">
+                <input type="hidden" name="postId" th:value="${postDetail.id}" />
+                <textarea name="comments" placeholder="댓글을 입력하세요"></textarea><br>
+                <button type="submit">댓글 등록</button>
             </form>
         </div>
-        <!-- 댓글 작성 폼 종료 -->
-    </div>
-    <!-- 게시글 상세 내용 종료 -->
-</div>
+
+        <!-- 댓글 목록 -->
+        <div id="comments">
+            <h2>댓글 목록</h2>
+            <ul class="list-group">
+                <!-- 댓글 목록을 표시하기 위한 Thymeleaf 반복문 -->
+                <th:block th:each="comment : ${commentsLists}">
+                    <li class="list-group-item">
+                        <p><strong>작성자:</strong> <span th:text="${comment.member.userName}"></span></p>
+                        <p><strong>내용:</strong> <span th:text="${comment.comments}"></span></p>
+                        <p><strong>작성일:</strong> <span th:text="${comment.createDate}"></span></p>
+
+                        <!-- 수정 버튼 -->
+                        <button type="button" class="btn btn-primary edit-button" onclick="editComment(this)">수정</button>
+                        <!-- 삭제 버튼 -->
+                        <form th:action="@{'/comments/delete'}" method="post" style="display: inline;">
+                            <input type="hidden" name="id" th:value="${comment.id}" />
+                            <button type="submit" class="btn btn-danger delete-button">삭제</button>
+                        </form>
+
+                        <!-- 수정 폼 -->
+                        <div class="edit-comment-form" style="display: none;">
+                            <form th:action="@{'/comments/update/' + ${comment.id}}" method="post">
+                                <textarea name="comments" th:value="${comment.comments}" placeholder="댓글을 입력하세요"></textarea><br>
+                                <button type="submit" class="btn btn-primary">저장</button>
+                                <button type="button" class="btn btn-secondary" onclick="cancelEditComment(this)">취소</button>
+                            </form>
+                        </div>
+                    </li>
+                </th:block>
+            </ul>
+        </div>
 
 <script>
     function editPost() {
@@ -273,6 +286,17 @@
         var editForm = document.getElementById('edit-form');
         editForm.style.display = 'none';
     }
+
+    function editComment(button) {
+        var editForm = button.parentNode.querySelector('.edit-comment-form');
+        editForm.style.display = 'block';
+    }
+
+    function cancelEditComment(button) {
+        var editForm = button.closest('.edit-comment-form');
+        editForm.style.display = 'none';
+    }
 </script>
+
 </body>
 </html>

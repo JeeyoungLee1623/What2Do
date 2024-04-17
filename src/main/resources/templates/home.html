@@ -104,10 +104,6 @@
     <td th:if="${session.my_greeting}==null">
       <button class="btn btn-primary nav-link" onclick="window.location.href='/member/new'">회원가입</button>
     </td>
-    <td th:if="${session.my_greeting}!=null">
-      <button class="btn btn-primary nav-link" onclick="window.location.href='/member/myPage/${member.email}'">마이페이지</button>
-    </td>
-
 
     <td th:if="${session.my_greeting}!=null">
       <button class="btn btn-primary nav-link" onclick="window.location.href='/doLogout'">로그아웃</button>

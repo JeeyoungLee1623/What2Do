@@ -110,11 +110,14 @@
             color: #003366;
         }
 
-
-
         .info-createDate {
             font-size: 14px;
             color: #777;
+        }
+
+        /* 추가된 스타일 */
+        .admin-link {
+            display: none; /* 기본적으로 숨깁니다. */
         }
     </style>
 </head>
@@ -124,8 +127,11 @@
 </div>
 
 <div id="tabs">
+    <!-- 글 목록 버튼 -->
     <button class="tab" id="board-tab" onclick="window.location.href='/post/lists'">글목록</button>
-    <button class="tab" id="myPage-button" onclick="window.location.href='/member/myPage/{id}'">마이페이지</button>
+    <!-- 글 작성 버튼 -->
+    <!-- 사용자가 관리자인 경우에만 보입니다. -->
+    <button class="tab admin-link" id="create-post" onclick="window.location.href='/information/new'">글작성</button>
 </div>
 
 <div id="contents">
@@ -141,24 +147,27 @@
         </thead>
         <tbody>
         <!-- Thymeleaf 반복문을 사용하여 게시글 목록을 동적으로 추가 -->
-        <tr th:each="info : ${infoDetail}" style="cursor: pointer;">
+        <tr th:each="info : ${informationList}" style="cursor: pointer;">
             <td th:text="${info.category}" class="info-category"></td>
             <td class="info-title">
-                <a th:text="${info.title}" th:href="@{/info/detail/{id}(id=${information.id})}"></a>
+                <a th:text="${info.title}" th:href="@{/information/detail/{id}(id=${info.id})}"></a>
             </td>
+            <!-- 작성자가 관리자인 경우에만 '관리자' 표시 -->
+            <td th:text="'관리자'" class="info-createDate"></td>
             <td th:text="${info.createDate}" class="info-createDate"></td>
         </tr>
         </tbody>
     </table>
     <!-- 게시글 목록 종료 -->
-
-    <!-- JavaScript 함수 -->
-    <!--    <script>-->
-    <!--        // 게시물 상세 페이지로 이동하는 함수-->
-    <!--        function redirectToPostDetail(postId) {-->
-    <!--            window.location.href = '/post/detail/' + postId;-->
-    <!--        }-->
-    <!--    </script>-->
 </div>
+
+<!-- 추가된 JavaScript -->
+<script th:inline="javascript">
+    /* 현재 사용자의 역할(role)을 가져와서 관리자인 경우에만 글 작성 버튼을 표시합니다. */
+    var isAdmin = /*[[${#authorization.expression('hasAuthority("ROLE_ADMIN")')}]]*/ false;
+    if (isAdmin) {
+        document.querySelector('.admin-link').style.display = 'block';
+    }
+</script>
 </body>
 </html>

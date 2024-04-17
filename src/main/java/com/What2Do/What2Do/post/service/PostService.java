@@ -1,6 +1,5 @@
 package com.What2Do.What2Do.post.service;
 
-import com.What2Do.What2Do.comment.repository.CommentRepository;
 import com.What2Do.What2Do.member.domain.Member;
 import com.What2Do.What2Do.member.repository.MemberRepository;
 import com.What2Do.What2Do.post.domain.Post;
@@ -32,8 +31,6 @@ public class PostService {
     @Autowired
     private MemberRepository memberRepository;
 
-    @Autowired
-    private CommentRepository commentRepository;
 
     public void create(PostDto postDto) throws Exception {
 
@@ -46,7 +43,6 @@ public class PostService {
                 .title(postDto.getTitle())
                 .content(postDto.getContent())
                 .member(member1)
-                .imageUrl(postDto.getImageUrl())
                 .build();
         postRepository.save(post1);
     }
@@ -75,14 +71,6 @@ public class PostService {
     }
 
 
-
-    public List<Post> findPostsByPage(int page) {
-        int pageSize = 10; // 페이지당 게시글 수
-        int offset = (page - 1) * pageSize; // 페이지 시작 오프셋 계산
-
-        // 데이터베이스에서 페이지에 해당하는 게시글을 조회
-        return postRepository.findPostsByPage(page);
-    }
 
     public int getPostCountByMemberId(Long memberId) {
         // memberId를 이용하여 해당 멤버의 게시글 수를 조회하는 로직을 구현합니다.

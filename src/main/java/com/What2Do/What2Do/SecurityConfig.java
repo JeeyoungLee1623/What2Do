@@ -31,12 +31,11 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain myFilter(HttpSecurity httpSecurity) throws Exception{
         return httpSecurity
-//                보안공격에 대한 설정은 별도로 하지 않겠다라는 뜻
                 .csrf().disable()
                 .authorizeRequests()
-//                login authenticated 에서 제외대한 대상 url 지정
                 .antMatchers( "/", "/member/new", "/post/lists","/member/login","/chat-gpt/question")
                 .permitAll()
+                .antMatchers("/information/new", "/information/delete", "/information/update").hasAuthority("ROLE_ADMIN")
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()

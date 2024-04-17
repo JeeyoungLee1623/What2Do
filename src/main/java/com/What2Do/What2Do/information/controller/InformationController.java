@@ -1,7 +1,9 @@
 package com.What2Do.What2Do.information.controller;
 
+import com.What2Do.What2Do.comment.domain.Comments;
 import com.What2Do.What2Do.infoComment.domain.InfoComment;
 import com.What2Do.What2Do.infoComment.repository.InfoCommentRepository;
+import com.What2Do.What2Do.infoComment.service.InfoCommentService;
 import com.What2Do.What2Do.information.domain.Information;
 import com.What2Do.What2Do.information.etc.InformationDto;
 import com.What2Do.What2Do.information.service.InformationService;
@@ -23,6 +25,9 @@ public class InformationController {
     private InformationService informationService;
 
     @Autowired
+    private InfoCommentService infoCommentService;
+
+    @Autowired
     private InfoCommentRepository infoCommentRepository;
 
     //게시글 생성
@@ -34,7 +39,7 @@ public class InformationController {
     @PostMapping("/information/new")
     public String createInfo (InformationDto informationDto){
         informationService.create(informationDto);
-        return "redirect:/";
+        return "redirect:/information/lists";
     }
 
     // 게시글 전체 조회
@@ -47,29 +52,28 @@ public class InformationController {
     }
 
     // 게시글 상세 조회
-    @GetMapping("information/detail/{id}")
+    @GetMapping("/information/detail/{id}")
     public String infoFindById(@PathVariable(value = "id")Long myId, Model model) throws Exception {
-        Information information = informationService.findById(myId);
-        model.addAttribute("infoDetail", information);
-
-        List<InfoComment> infoComments = infoCommentRepository.findByInformationId(myId);
+        Information information1 = informationService.findById(myId);
+        List<InfoComment> infoComments = infoCommentRepository.findAllByInformationId(myId);
         model.addAttribute("infoComments" , infoComments);
-        return "information-detail";
+        model.addAttribute("infoDetail", information1);
+        return "information/information-detail" ;
     }
 
     // 게시글 수정
-    @PostMapping("information/update")
+    @PostMapping("/information/update")
     public String updateInfo (InformationDto informationDto) throws Exception {
         informationService.update(informationDto);
-        return "redirect:information-List";
+        return "redirect:/information/lists";
     }
 
     // 게시글 삭제
 
-    @GetMapping("information/delete")
-    public String deleteInfo(@RequestParam(value = "id")Long myId) throws Exception {
-        informationService.delete(myId);
-        return"redirect:/information-List";
+    @GetMapping("/information/delete")
+    public String deleteInfo(@RequestParam(value = "id")String myId) throws Exception {
+        informationService.delete(Long.valueOf(myId));
+        return"redirect:/information/lists";
     }
 
 

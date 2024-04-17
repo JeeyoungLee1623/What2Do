@@ -1,6 +1,5 @@
 package com.What2Do.What2Do.member.domain;
 
-import com.What2Do.What2Do.comment.domain.Comment;
 import com.What2Do.What2Do.infoComment.domain.InfoComment;
 import com.What2Do.What2Do.post.domain.Post;
 import lombok.Builder;
@@ -54,8 +53,6 @@ public class Member {
     @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
     private List<Post> postsNum;
 
-    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
-    private List<Comment> commentsNum;
 
     @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
     private List<InfoComment> infoCommentsNum;

@@ -6,6 +6,7 @@ import com.What2Do.What2Do.information.repository.InformationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityExistsException;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -20,7 +21,7 @@ public class InformationService {
                 .title(informationDto.getTitle())
                 .content(informationDto.getContent())
                 .imageUrl(informationDto.getImageUrl())
-                .category(informationDto.getCategory2())
+                .category(informationDto.getCategory())
                 .build();
         informationRepository.save(information1);
     }
@@ -31,13 +32,13 @@ public class InformationService {
     }
 
     public Information findById(Long myId) throws Exception {
-        Information information3 = informationRepository.findById(myId).orElseThrow(Exception::new);
+        Information information3 = informationRepository.findById(myId).orElseThrow(EntityExistsException::new);
         return information3;
     }
 
     public void update (InformationDto informationDto) throws Exception {
         Information information4 = informationRepository.findById(Long.parseLong(informationDto.getId())).orElseThrow(Exception::new);
-        information4.setCategory(informationDto.getCategory2());
+        information4.setCategory(informationDto.getCategory());
         information4.setTitle(informationDto.getTitle());
         information4.setContent(informationDto.getContent());
         information4.setImageUrl(informationDto.getImageUrl());

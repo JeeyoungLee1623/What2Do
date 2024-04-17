@@ -126,8 +126,9 @@
       <div>
         <label for="category">카테고리:</label>
         <select id="category" name="category" required>
-          <option th:each="cat : ${T(com.What2Do.What2Do.post.domain.Category2).values()}"
-                  th:value="${cat}" th:text="${cat}"></option>
+          <option value="자격증">자격증</option>
+          <option value="취미">취미</option>
+          <option value="클래스">클래스</option>
         </select>
       </div>
       <div>
@@ -142,16 +143,6 @@
         <label for="imageUrl">이미지 URL:</label>
         <input type="text" id="imageUrl" name="imageUrl">
       </div>
-
-      <!--      &lt;!&ndash; JavaScript로 작성자 정보 입력 &ndash;&gt;-->
-      <!--      <script>-->
-      <!--        var currentUser = {-->
-      <!--          username: "사용자 이름",-->
-      <!--        };-->
-      <!--        document.getElementById("member").value = currentUser.username;-->
-      <!--      </script>-->
-
-
       <button class="btn" type="submit">포스트 생성</button>
     </form>
   </div>

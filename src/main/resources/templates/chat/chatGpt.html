@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -22,12 +22,13 @@
             text-transform: uppercase;
             margin-bottom: 30px;
         }
+
         #header a {
-         text-decoration: none;
-         color: #0073e6;
-         font-size: 60px;
-         font-weight: bold;
-         text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            text-decoration: none;
+            color: #0073e6;
+            font-size: 60px;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
         }
 
         #header a:hover {
@@ -49,8 +50,8 @@
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             margin-bottom: 20px;
             overflow-y: auto;
-            max-width: 80vw; /* Added max-width */
-            overflow-wrap: break-word; /* Added word wrap */
+            max-width: 80vw;
+            overflow-wrap: break-word;
         }
 
         .line {
@@ -100,7 +101,7 @@
 </head>
 <body>
 <div id="header">
-    <a href="/" th:href="@{/}">What 2 Do 추천</a>
+    <a href="/">What 2 Do 추천</a>
 </div>
 
 <div class="chat-container" id="chatContainer">
@@ -117,7 +118,6 @@
 <script>
     const BASE_URL = 'http://localhost:8081/chat-gpt/question';
 
-    // Initial message to be displayed when the page loads
     document.getElementById('chatContainer').innerHTML = `
         <div class="line">
             <span class="chat-box">안녕하세요! 도움이 필요하신가요?</span>
@@ -126,7 +126,8 @@
 
     function sendQuestion() {
         let question = document.querySelector('#input').value;
-        if (!question.trim()) return; // Ignore empty messages
+        if (!question.trim()) return;
+
         let template = `<div class="line">
             <span class="chat-box mine">${question}</span>
         </div>`;
@@ -141,7 +142,7 @@
                     <span class="chat-box">${response.data.choices[0].message.content}</span>
                 </div>`;
                 document.querySelector('.chat-container').insertAdjacentHTML('beforeend', template);
-                document.querySelector('#input').value = ''; // Clear input after sending
+                document.querySelector('#input').value = '';
             })
             .catch(error => {
                 console.error('Error during request:', error);
@@ -149,7 +150,6 @@
     }
 
     function sendMessage() {
-        // If Enter key is pressed, send the message
         if (event.key === 'Enter') {
             sendQuestion();
         }

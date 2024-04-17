@@ -225,36 +225,10 @@
             <td th:text="${post.member.userName}" class="post-member"></td>
             <td th:text="${post.createDate}" class="post-createDate"></td>
         </tr>
-
-        <!-- 두 번째 리스트 (searchList) -->
-        <tr th:each="searchedPost : ${searchList != null} ? ${searchList.content} : null" style="cursor: pointer;">
-            <td th:text="${searchedPost.category}" class="post-category"></td>
-            <td class="post-title">
-                <a th:text="${searchedPost.title}" th:href="@{/post/detail/{id}(id=${searchedPost.id})}"></a>
-            </td>
-            <td th:text="${searchedPost.member.userName}" class="post-member"></td>
-            <td th:text="${searchedPost.createDate}" class="post-createDate"></td>
-        </tr>
-
         </tbody>
 
-        <!-- 페이징 부분 시작 -->
-        <div class="pagination justify-content-center">
-            <ul class="pagination">
-                <!-- Updated #numbers.sequence to handle cases where the total pages are less than 5 -->
-                <li th:each="page : ${searchList.totalPages > 5 ?
-                    #numbers.sequence(
-                        Math.max(0, searchList.number - 2),
-                        Math.min(searchList.totalPages - 1, Math.max(searchList.number + 2, 4))
-                    ) :
-                    #numbers.sequence(0, searchList.totalPages - 1)}" class="page-item" th:classappend="${searchList.number == page} ? 'active'">
-                    <a th:if="${page >= 0 and page < searchList.totalPages}" th:href="@{/post/search(keyword=${keyword}, page=${page})}" class="page-link" th:text="${page + 1}"></a>
-                </li>
-            </ul>
-        </div>
-        <!-- 페이징 부분 종료 -->
     </table>
-    <!-- 게시글 목록 종료 -->
+
 </div>
 </body>
 </html>

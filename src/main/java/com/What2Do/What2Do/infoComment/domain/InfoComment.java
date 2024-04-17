@@ -39,6 +39,7 @@ public class InfoComment {
         this.comment = comment;
         this.information = information;
         this.member = member;
+        this.createDate = LocalDateTime.now();
     }
 
 }

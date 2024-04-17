@@ -21,6 +21,8 @@ public class ChatGptRequestDto implements Serializable {
     private Boolean stream;
     private List<ChatGptMessage> messages;
 
+
+
 //    @JsonProperty("top_p")
 //    private Double topP;
 
@@ -35,6 +37,9 @@ public class ChatGptRequestDto implements Serializable {
         this.stream = stream;
         this.messages = messages;
 
+
 //        this.topP = topP;
     }
+
+
 }
